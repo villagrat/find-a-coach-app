@@ -1,12 +1,19 @@
 <template>
+  <!-- NB: !! converts a string into a Boolean -->
+  <base-dialog :show="!!error" title="An error ocurred!" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
   <section><coach-filter @change-filter="setFilters"></coach-filter></section>
   <section>
     <base-card>
     <div class="controls">
-    <base-button mode="outline">Refresh</base-button>
-    <base-button link to="/register" v-if="!isCoach">Register as Coach</base-button>
+    <base-button mode="outline" @click="loadCoaches">Refresh</base-button>
+    <base-button link to="/register" v-if="!isCoach && !isLoading">Register as Coach</base-button>
   </div>
-  <ul v-if="hasCoaches">
+  <div v-if="isLoading">
+    <base-spinner></base-spinner>
+  </div>
+  <ul v-else-if="hasCoaches">
     <coach-item v-for="coach in filteredCoaches" 
     :key="coach.id" 
     :id="coach.id" 
@@ -27,6 +34,8 @@ import CoachFilter from '../../components/coaches/CoachFilter.vue'
 export default {
   data(){
     return {
+      isLoading: true,
+      error: null,
       activeFilters: {
         frontend: true,
         backend: true,
@@ -36,7 +45,7 @@ export default {
   },
   components: {
     CoachItem,
-    CoachFilter
+    CoachFilter,
   },
   computed: {
     filteredCoaches(){
@@ -65,7 +74,23 @@ export default {
   methods: {
     setFilters(updatedFilters){
       this.activeFilters = updatedFilters
+    },
+    // can set async here bc dispatch returns a promise behind the scenes, so we can be sure that promise is completed on the next line after the dispatch
+    async loadCoaches(){
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('coaches/loadCoaches')
+      } catch (error) {
+        this.error = error.message || 'Something went wrong!'
+      }
+      this.isLoading = false
+    },
+    handleError(){
+      this.error = null
     }
+  },
+  created() {
+    this.loadCoaches()
   }
 }
 </script>
