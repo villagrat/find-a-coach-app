@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, defineAsyncComponent } from 'vue';
 
 import App from './App.vue'
 import router from './router.js'
@@ -7,9 +7,14 @@ import BaseCard from './components/ui/BaseCard.vue'
 import BaseButton from './components/ui/BaseButton.vue'
 import BaseBadge from './components/ui/BaseBadge.vue'
 import BaseSpinner from './components/ui/BaseSpinner.vue'
-import BaseDialog from './components/ui/BaseDialog.vue'
+// import BaseDialog from './components/ui/BaseDialog.vue'
 
 const app = createApp(App)
+
+// Optimization: lazy loading of components
+// can be used for Global Components, like our BaseSomething
+//                 Local Components & Routes as well
+const BaseDialog = defineAsyncComponent(() => import('./components/ui/BaseDialog.vue'))
 
 app.use(router)
 app.use(store)
