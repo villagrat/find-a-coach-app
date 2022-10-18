@@ -13,4 +13,6 @@ In this project we practice the following features of the framework:
 - Router
 - Components
 - HTTP requests
+- User Authentication
+- Protected Routes & Navigation Guards
 - Animations & Transitions
