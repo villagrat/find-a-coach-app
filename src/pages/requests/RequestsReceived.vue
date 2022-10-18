@@ -1,6 +1,7 @@
 <template>
-  <!-- NB: !! converts a string into a Boolean -->
-  <base-dialog :show="!!error" title="An error ocurred!" @close="handleError">
+  <div>
+    <!-- NB: !! converts a string into a Boolean -->
+    <base-dialog :show="!!error" title="An error ocurred!" @close="handleError">
     <p>{{ error }}</p>
   </base-dialog>
   <section>
@@ -13,6 +14,7 @@
     <h3 v-else>You haven't received any requests yet :(</h3>
   </base-card>
   </section>
+</div>
 </template>
 
 <script>

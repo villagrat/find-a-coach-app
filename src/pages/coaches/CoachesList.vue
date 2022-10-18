@@ -1,6 +1,7 @@
 <template>
-  <!-- NB: !! converts a string into a Boolean -->
-  <base-dialog :show="!!error" title="An error ocurred!" @close="handleError">
+  <div>
+    <!-- NB: !! converts a string into a Boolean -->
+    <base-dialog :show="!!error" title="An error ocurred!" @close="handleError">
     <p>{{ error }}</p>
   </base-dialog>
   <section><coach-filter @change-filter="setFilters"></coach-filter></section>
@@ -25,6 +26,7 @@
   <h3 v-else>No coaches found.</h3>
 </base-card>
 </section>
+</div>
 </template>
 
 <script>
@@ -50,7 +52,6 @@ export default {
   computed: {
     filteredCoaches(){
       const coaches =  this.$store.getters['coaches/coaches']
-      console.log('filteredCoaches: ', coaches)
       return coaches.filter(coach => {
         if (this.activeFilters.frontend && coach.areas.includes('frontend')){
           return true
