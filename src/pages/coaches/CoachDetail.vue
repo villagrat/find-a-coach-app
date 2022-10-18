@@ -40,6 +40,8 @@ export default {
       return this.selectedCoach.description
     },
     contactLink(){
+      console.log('this: ', this)
+      console.log('this.id: ', this.id)
       return this.$route.path + '/' + this.id + '/contact'
     }
   },

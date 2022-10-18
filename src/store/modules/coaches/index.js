@@ -6,6 +6,8 @@ export default {
   namespaced: true,
   state(){
     return {
+      // used for data caching
+      lastFetch: null,
       userIsCoach: false,
       coaches: [
         {
